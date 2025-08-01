@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static '/css/home.css' %}">
+    <link rel="shortcut icon" href="{% static '/imgs/memodrop_logo.svg' %}" type="image/x-icon">
+    <title>MemoDrop</title>
+</head>
+<body class="bg-dark d-flex flex-column">
+    <div class="d-flex ali gap-2 mb-3 align-items-center">
+        <h1 class="text-light fs-3 font-monospace m-0">MemoDrop</h1>
+        <img style="width: auto; height: 30px;" src="{% static '/imgs/memodrop_logo.svg' %}" alt="">
+    </div>
+    
+    {% if register_form %}
+        {% include "partials/forms/_register.html" %}
+    {% elif form %}
+        {% include "partials/forms/_login.html" %}
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

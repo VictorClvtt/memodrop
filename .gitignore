@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+
+# Django migrations
+**/migrations/
+!**/migrations/__init__.py  # keep init file so Django detects the package
+
+# Django secret keys, settings overrides
+*.env
+.env.*
+
+# Database
+*.sqlite3

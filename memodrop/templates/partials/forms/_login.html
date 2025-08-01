@@ -1,0 +1,28 @@
+<form action="" method="post" class="loginForm rounded-1">
+    {% csrf_token %}
+
+    <div class="d-flex align-items-end">
+        <h2 class="text-light fs-4 m-0">Login:</h2>    
+        <p class="text-secondary" style="font-size: 0.6875rem; margin: 0 0 1px 4px;">Don't have an account yet? <a href="{% url 'register' %}">Create an account!</a></p>
+    </div>
+    
+    <hr>
+
+    {% for field in form %}
+        <div class="fieldWrapper text-light">
+            {{ field.errors }}
+            
+            {{ field.label_tag }}
+            <div>
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="help" id="{{ field.auto_id }}_helptext">
+                        {{ field.help_text|safe }}
+                    </div>
+                {% endif %}
+            </div>    
+        </div>
+        <hr>
+    {% endfor %}
+    <input class="btn btn-primary btn-sm w-100" type="submit" value="Submit">
+</form>
