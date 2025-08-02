@@ -13,7 +13,7 @@ body{
     gap: 0.75rem;
     width: fit-content;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--container-primary-color);
 
     hr{
         border-top: 1px solid rgba(255, 255, 255, 0.75);
@@ -58,7 +58,7 @@ body{
     gap: 0.75rem;
     width: fit-content;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--container-primary-color);
 
     hr{
         border-top: 1px solid rgba(255, 255, 255, 0.75);

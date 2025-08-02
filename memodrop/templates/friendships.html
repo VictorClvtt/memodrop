@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static '/css/friendships.css' %}">
+    <link rel="shortcut icon" href="{% static '/imgs/memodrop_logo.svg' %}" type="image/x-icon">
+    <title>MemoDrop</title>
+</head>
+<body class="bg-dark d-flex flex-column justify-content-start">
+    {% include "partials/_nav.html" %}
+
+    <main class="w-100 h-100  m-auto d-flex align-items-center gap-2" style="max-width: 1000px;">
+        <section class="w-100 mt-3 mb-3 rounded-1" style="height: min-content;">
+            <h1 class="text-light fs-5 m-0">Friendships:</h1>
+            <ul class="d-flex flex-column gap-1 m-0 list-unstyled rounded-0 d-flex text-white w-100 h-100 border-top border-bottom border-secondary" style="min-height: 375px; background-color: rgba(0, 0, 0, 0.175);">
+                {% if friendships %}
+                    {% for friendship in friendships %}
+                        {% if friendship.user_1 == request.user %}
+                            <li class="p-2 ps-3 pe-3" style="background-color: var(--container-primary-color);">{{ friendship.user_2 }}</li>
+                        {% else %}
+                            <li class="p-2 ps-3 pe-3" style="background-color: var(--container-primary-color);">{{ friendship.user_1 }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <span class="m-auto text-white-50" style="font-size: 0.875rem;">No friendships yet :(</span>
+                {% endif %}
+            </ul>
+        </section>
+        <section class="w-100 mt-3 mb-3 rounded-1" style="height: min-content;">
+            <h1 class="text-light fs-5 m-0">Find new friends:</h1>
+            <ul class="d-flex flex-column gap-1 m-0 list-unstyled rounded-0 d-flex text-white w-100 h-100 border-top border-bottom border-secondary" style="min-height: 375px; background-color: rgba(0, 0, 0, 0.175);">
+                {% if users %}
+                    {% for user in users %}
+                        
+                        <li class="d-flex justify-content-between align-items-center p-2 ps-3 pe-3" style="background-color: var(--container-primary-color);">
+                            
+                            <span>{{ user }}</span>
+
+                            {% if user.pending_request_sent %}
+                                <div>
+                                    <span class="border-end border-info text-info" style="padding: 0 5px; font-size: 0.8rem;">Pending</span>
+                                </div>
+                            {% elif user.pending_request_recieved %}
+                                <div class="d-flex">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_1_id" value="{{ user.id }}">
+                                        <input type="submit" value="Accept Request +" class="btn btn-success btn-sm rounded-end-0" style="padding: 0 5px; font-size: 0.8rem;">
+                                    </form>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="delete_request" value="">
+                                        <input type="hidden" name="user_1_id" value="{{ user.id }}">
+                                        <input type="submit" value="Deny Request -" class="btn btn-danger btn-sm rounded-start-0" style="padding: 0 5px; font-size: 0.8rem;">
+                                    </form>    
+                                </div>
+                                
+                            {% else %}
+                                <form action="" method="post">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="user_2_id" value="{{ user.id }}">
+                                    <input type="submit" value="Add Friend +" class="btn btn-primary btn-sm" style="padding: 0 5px; font-size: 0.8rem;">
+                                </form>
+                            {% endif %}
+                            
+                        </li>
+                        
+                    {% endfor %}
+                {% else %}
+                    <span class="m-auto text-white-50" style="font-size: 0.875rem;">No more users found :(</span>
+                {% endif %}
+            </ul>
+        </section>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

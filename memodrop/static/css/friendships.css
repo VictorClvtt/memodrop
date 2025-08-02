@@ -1,0 +1,52 @@
+@import url('./variables.css');
+
+body{
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+main section{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 0.75rem;
+    width: fit-content;
+    padding: 1rem;
+    background-color: var(--container-primary-color);
+
+    hr{
+        border-top: 1px solid rgba(255, 255, 255, 0.75);
+        width: 100%;
+        margin: 0;
+    }
+
+    .fieldWrapper{
+        display: flex;
+        gap: 0.5rem;
+        align-items: baseline;
+
+        .help{
+            display: flex;
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 0.6875rem;
+            padding-top: 0.1rem;
+
+            ul{
+            margin: 0;
+            padding: 0 0 0 0.75rem;
+            }
+        }
+
+        label{
+            font-size: 0.9rem;
+            width: 12rem;
+            font-weight: bold;
+        }
+
+        hr{
+            color: aliceblue;
+        }
+    }
+}
