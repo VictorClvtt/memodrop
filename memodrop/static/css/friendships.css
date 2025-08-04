@@ -50,3 +50,27 @@ main section{
         }
     }
 }
+
+table thead tr{
+
+    th{
+        font-size: 0.9rem !important;
+    }    
+} 
+
+table tbody tr td{
+    font-size: 0.85rem !important;  
+}
+
+main{
+    flex-direction: row;
+}
+
+@media screen and (max-width: 700px) {
+  
+  
+  main{
+    flex-direction: column;
+    
+  }
+}

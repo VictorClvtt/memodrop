@@ -11,7 +11,8 @@ body{
     flex-direction: column;
     align-items: baseline;
     gap: 0.75rem;
-    width: fit-content;
+    width: 100%;
+    max-width: fit-content;
     padding: 1rem;
     background-color: var(--container-primary-color);
 
@@ -22,6 +23,7 @@ body{
     }
 
     .fieldWrapper{
+        width: 100%;
         display: flex;
         gap: 0.5rem;
         align-items: baseline;
@@ -32,21 +34,32 @@ body{
             margin: 0;
             font-size: 0.6875rem;
             padding-top: 0.1rem;
+            max-width: max-content;
 
             ul{
-            margin: 0;
-            padding: 0 0 0 0.75rem;
+                margin: 0;
+                padding: 0 0 0 0.75rem;
             }
         }
 
         label{
             font-size: 0.9rem;
-            width: 12rem;
+            text-wrap: nowrap;
+            
             font-weight: bold;
         }
 
         hr{
             color: aliceblue;
+        }
+
+        div{
+            width: 100%;
+            
+            input{
+                width: 100%;
+                max-width: 15rem;
+            }
         }
     }
 }
@@ -56,7 +69,8 @@ body{
     flex-direction: column;
     align-items: baseline;
     gap: 0.75rem;
-    width: fit-content;
+    width: 100%;
+    max-width: fit-content;
     padding: 1rem;
     background-color: var(--container-primary-color);
 
@@ -67,10 +81,9 @@ body{
     }
 
     .fieldWrapper{
-        display: flex;
-        justify-content: space-between;
-        gap: 2rem;
         width: 100%;
+        display: flex;
+        gap: 0.5rem;
         align-items: baseline;
 
         .help{
@@ -79,10 +92,11 @@ body{
             margin: 0;
             font-size: 0.6875rem;
             padding-top: 0.1rem;
+            max-width: max-content;
 
             ul{
-            margin: 0;
-            padding: 0 0 0 0.75rem;
+                margin: 0;
+                padding: 0 0 0 0.75rem;
             }
         }
 
@@ -96,6 +110,15 @@ body{
             color: aliceblue;
         }
         
+        div{
+            width: 100%;
+            
+            input{
+                width: 100%;
+                max-width: 12rem;
+            }
+        }
+
     }
 }
 

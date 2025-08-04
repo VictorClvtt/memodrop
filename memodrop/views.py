@@ -115,3 +115,12 @@ class Friendship(LoginRequiredMixin, View):
 
                 return redirect('friendships')
                 # return HttpResponse(f'Now you and {user_1.username} are friends!')
+
+class Memos(LoginRequiredMixin, View):
+    def get(self, request, id):
+        other_user = get_object_or_404(models.User, id=id)
+
+        context = {
+            'other_user': other_user
+        }
+        return render(request, 'memos.html', context)
