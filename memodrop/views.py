@@ -5,6 +5,9 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
+from collections import defaultdict
+from datetime import timedelta, date
+
 from . import models
 from . import forms
 
@@ -35,10 +38,14 @@ class Login(LoginView):
     template_name = 'entry_point.html'
     next_page = '/'
 
-class Main(LoginRequiredMixin, View):
+class Home(LoginRequiredMixin, View):
 
     def get(self, request):
-        return HttpResponse(f'Welcome {request.user.username}! <a href="friendships/">Friendships</a>')
+
+        context = {
+            
+        }
+        return render(request, 'home.html', context)
     
 class Friendship(LoginRequiredMixin, View):
     def get(self, request):
@@ -120,7 +127,55 @@ class Memos(LoginRequiredMixin, View):
     def get(self, request, id):
         other_user = get_object_or_404(models.User, id=id)
 
+        memos = models.Memo.objects.filter(
+            Q(user_1=request.user, user_2=other_user) | Q(user_1=other_user, user_2=request.user)
+        )
+
+        # Agrupa os memos por data
+        memos_by_date = defaultdict(list)
+        for memo in memos:
+            memos_by_date[memo.date].append(memo)
+
+        # Descobre o intervalo de datas
+        if memos:
+            min_date = min(memo.date for memo in memos)
+        else:
+            min_date = date.today()
+
+        max_date = date.today()
+
+        # Cria um dicionário com todas as datas (mesmo sem memo)
+        full_memos = {}
+        current = min_date
+        while current <= max_date:
+            full_memos[current] = memos_by_date.get(current, [])
+            current += timedelta(days=1)
+
+        memos = dict(sorted(full_memos.items()))
+
+        have_sent_today = False
+        for memo in memos.get(date.today(), []):
+            if memo.user_1 == request.user:
+                have_sent_today = True
+                break
+
+        
         context = {
-            'other_user': other_user
+            'other_user': other_user,
+            'memos': memos,
+            'today': date.today(),
+            'current_user': request.user,
+            'have_sent_today': have_sent_today
         }
         return render(request, 'memos.html', context)
+    
+    def post(self, request, id):
+        user_1 = request.user
+        user_2 = get_object_or_404(models.User, id=id)
+        content = request.POST.get('content')
+        image = request.POST.get('image')
+
+        new_memo = models.Memo(user_1=user_1, user_2=user_2, content=content, image=image)
+        new_memo.save()
+
+        return redirect('memos', id=id)

@@ -5,6 +5,20 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 class User(AbstractUser):
+    class ProfileColor(models.TextChoices):
+        BLACK = 'black', 'Black'
+        RED = 'red', 'Red'
+        PINK = 'pink', 'Pink'
+        GREEN = 'green', 'Green'
+        BLUE = 'blue', 'Blue'
+        YELLOW = 'yellow', 'Yellow'
+    profile_color = models.CharField(
+        max_length=10,
+        choices=ProfileColor.choices,
+        default=ProfileColor.BLACK
+    )
+
+
     def __str__(self):
         return f'{self.username} - {self.first_name} {self.last_name}'
 
@@ -34,6 +48,8 @@ class Memo(models.Model):
     user_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='memo_sent')
     user_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='memo_received')
     content = models.TextField()
+    image = models.ImageField(upload_to='memos/', blank=True, null=True) 
+    
     created_at = models.DateTimeField(auto_now_add=True)
     date = models.DateField(auto_now_add=True)
 
@@ -47,4 +63,4 @@ class Memo(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f'Memo from {self.user_1} to {self.user_2} on {self.date}'
+        return f'Memo from {self.user_1.username} to {self.user_2.username} on {self.date}'

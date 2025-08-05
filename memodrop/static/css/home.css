@@ -1,0 +1,9 @@
+@import url('./variables.css');
+
+body{
+    height: 100vh;
+}
+
+main{
+    height: 100vh;
+}

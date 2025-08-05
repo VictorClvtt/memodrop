@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static '/css/home.css' %}">
+    <link rel="shortcut icon" href="{% static '/imgs/memodrop_logo.svg' %}" type="image/x-icon">
+    <title>MemoDrop</title>
+</head>
+<body class="bg-dark d-flex flex-column">
+    {% include "partials/_nav.html" %}
+
+
+    <div class="d-flex flex-column align-items-center justify-content-center h-100 w-100 text-light">
+        <h1 class="fs-3">Eu amo a Carol do chechão :)</h1>
+        <img src="https://i.pinimg.com/originals/a9/c8/b8/a9c8b8bda377e08cfdaf21f988600592.gif"  alt="">
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

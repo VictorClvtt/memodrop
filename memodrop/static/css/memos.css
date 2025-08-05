@@ -1,1 +1,42 @@
 @import url('./variables.css');
+
+body{
+    height: 100vh;
+}
+
+main{
+    height: 100vh;
+}
+
+.memo-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.black-text-box{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.green-text-box{
+    background-color: rgb(36, 221, 159);
+    color: black;
+}
+
+.pink-text-box{
+    background-color: rgb(248, 173, 248);
+    color: black;
+}
+
+@media screen and (max-width: 700px) {
+  
+  
+  .memo-list{
+    flex-direction: column;
+    
+    li{
+        width: fit-content;
+    }
+  }
+}
