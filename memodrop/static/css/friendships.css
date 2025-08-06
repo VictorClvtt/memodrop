@@ -1,10 +1,17 @@
 @import url('./variables.css');
 
-body{
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
+html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
 }
+
+main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
 
 
 

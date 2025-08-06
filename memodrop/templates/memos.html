@@ -14,39 +14,45 @@
 <body class="bg-dark d-flex flex-column justify-content-start">
     {% include "partials/_nav.html" %}
 
-    <div class="d-flex align-items-center gap-1 w-100 ps-2 pe-2 text-light" style="height: 35px; background-color: rgba(0, 0, 0, 0.25);">
+    <div class="d-flex align-items-center gap-1 w-100 ps-2 pe-2 text-light" style="min-height: 30px; background-color: rgba(0, 0, 0, 0.25);">
         <div class="bg-light rounded-5" style="width: 1.25rem; height: 1.25rem;">
             <img src="" alt="">
         </div>
         <p class="m-0" style="font-size: 0.8rem;">Writing to <span class="{{ other_user.profile_color }}-text-box rounded-1 fw-bold ps-1 pe-1">{{ other_user.username }}</span></p>
     </div>
 
-    <main class="d-flex flex-column justify-content-between flex-grow-1 text-light">
-        <div class="ps-4 pe-4 pb-3 flex-grow-1">
+    <main class="d-flex flex-column justify-content-between text-light">
+        <div class="ps-4 pe-4 flex-grow-1 overflow-auto">
             {% for date, memos_on_date in memos.items %}
                 <h4 class="text-center mt-2 p-1 rounded-1" style="background-color: rgba(0, 0, 0, 0.45); font-size: 0.95rem; color: rgba(240, 255, 255, 0.65);">{{ date|date:"d/m/Y"}}</h4>
 
                 {% if memos_on_date %}
-                    <ul class="memo-list flex-column-reverse list-unstyled overflow-scroll" style="max-height: 100vh;">
-                        {% for memo in memos_on_date %}
+                    <ul class="memo-list flex-column list-unstyled" style="height: fit-content;">
+                        {% for memo in memos_on_date reversed %}
+                            <li class="d-flex flex-column"
+                                style="
+                                    width: fit-content;
+                                    {% if memo.user_1 == current_user %} margin-left: auto; {% endif %}
+                                ">
+                                <strong style="padding-right: 0.05rem;">{{ memo.user_1.username }}:</strong>
 
-                            <li class="d-flex flex-column" style="width: fit-content; 
-                                {% if memo.user_1 == current_user %}
-                                    margin-left: auto;
-                                {% endif %}
-                            ">
-                                <strong  style="padding-right: 0.05rem;">{{ memo.user_1.username }}:</strong>
-                                <div class="{{ memo.user_1.profile_color }}-text-box rounded-1 p-1 ps-2 pe-2 m-0">
+                                <div class="{{ memo.user_1.profile_color }}-text-box rounded-1 p-1 ps-2 pe-2 m-0"
+                                style="display: inline-block; {% if memo.image %} max-width: min-content; {% endif %}">
+
                                     {% if memo.image %}
-                                        <img src="{{ memo.image.url }}" alt="Memo image" class="img-fluid mt-2 rounded-2 shadow-sm" style="max-width: 350px; max-height: 350px;">
+                                        <img src="{{ memo.image.url }}" alt="Memo image" class="memo-img img-fluid mt-1 mb-1 rounded-2 shadow-sm">
                                     {% endif %}
                                     <p class="m-0">{{ memo.content }}</p>
                                 </div>
-                                <small class="w-100 text-end" style="font-size: 0.75rem; padding-right: 0.05rem;">{{ memo.created_at|time:"H:i" }}</small>
+
+                                <small class="w-100 text-end" style="font-size: 0.75rem; padding-right: 0.05rem;">
+                                    {{ memo.created_at|time:"H:i" }}
+                                </small>
                             </li>
                         {% endfor %}
                     </ul>
                 {% else %}
+
                     <p class="w-100 text-center" style="color: rgba(255, 255, 255, 0.5);"><em>No memos sent on this day :(</em></p>
                 {% endif %}
                 
@@ -63,36 +69,36 @@
             
 
             <!-- Modal -->
-        <div class="modal fade" id="memoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content bg-dark text-light border-secondary">
-                    <div class="modal-header border-0 border-bottom border-secondary">
-                        <h1 class="modal-title fs-5 text-light" id="exampleModalLabel">Memo:</h1>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="d-flex flex-column" action="" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div>
-                                <label for="content" class="form-label m-0" style="font-size: 0.75rem;">Content:</label>
-                                <textarea name="content" id="content" rows="10" class="form-control bg-dark text-light border-secondary"></textarea>
-                            </div>
-                            
-                            <div class="mb-1 mt-1">
-                                <label for="image" class="form-label m-0" style="font-size: 0.75rem;">Upload image <small class="fst-italic">(optional)</small>:</label>
-                                <input class="form-control bg-dark text-light border-secondary" type="file" id="image" name="image" accept="image/*">
-                            </div>
+            <div class="modal fade" id="memoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-light border-secondary">
+                        <div class="modal-header border-0 border-bottom border-secondary">
+                            <h1 class="modal-title fs-5 text-light" id="exampleModalLabel">Memo:</h1>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="d-flex flex-column" action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div>
+                                    <label for="content" class="form-label m-0" style="font-size: 0.75rem;">Content:</label>
+                                    <textarea name="content" id="content" rows="10" class="form-control bg-dark text-light border-secondary"></textarea>
+                                </div>
+                                
+                                <div class="mb-1 mt-1">
+                                    <label for="image" class="form-label m-0" style="font-size: 0.75rem;">Upload image <small class="fst-italic">(optional)</small>:</label>
+                                    <input class="form-control bg-dark text-light border-secondary" type="file" id="image" name="image" accept="image/*">
+                                </div>
 
-                            <hr>
+                                <hr>
 
-                            <div class="modal-footer p-0 border-0">
-                                <button type="submit" class="btn btn-primary w-100">Submit</button>
-                            </div>
-                        </form>
+                                <div class="modal-footer p-0 border-0">
+                                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         {% else %}
         <div class="d-flex flex-column" style="background-color: rgba(0, 0, 0, 0.25);">

@@ -173,7 +173,7 @@ class Memos(LoginRequiredMixin, View):
         user_1 = request.user
         user_2 = get_object_or_404(models.User, id=id)
         content = request.POST.get('content')
-        image = request.POST.get('image')
+        image = request.FILES.get('image')
 
         new_memo = models.Memo(user_1=user_1, user_2=user_2, content=content, image=image)
         new_memo.save()

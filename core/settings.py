@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    
+    "https://f31a037b4c15.ngrok-free.app"
 ]
 
 
