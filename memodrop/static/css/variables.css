@@ -31,6 +31,6 @@
 }
 
 .yellow-text-box{
-    background-color: rgb(240, 243, 91);
+    background: linear-gradient(135deg, #00c853, #fdd835);
     color: black;
 }
