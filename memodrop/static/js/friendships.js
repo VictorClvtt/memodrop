@@ -1,12 +1,10 @@
-function changeSection(tableId, buttonId) {
-    const tableIds = ['friends-section', 'other-users-section'];
-    const buttonIds = ['friends-btn', 'other-users-btn'];
+function changeSection(sectionId, buttonId) {
+        const sections = document.querySelectorAll('main > section');
+        const buttons = document.querySelectorAll('button');
 
-    for (let i = 0; i < tableIds.length; i++) {
-        document.getElementById(tableIds[i]).classList.add('d-none');
-        document.getElementById(buttonIds[i]).classList.remove('active-table-button');
-    }
+        sections.forEach(section => section.classList.add('d-none'));
+        buttons.forEach(button => button.classList.remove('active-table-button'));
 
-    document.getElementById(tableId).classList.remove('d-none');
-    document.getElementById(buttonId).classList.add('active-table-button');
+        document.getElementById(sectionId).classList.remove('d-none');
+        document.getElementById(buttonId).classList.add('active-table-button');
 }

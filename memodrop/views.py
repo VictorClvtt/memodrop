@@ -43,9 +43,30 @@ class Home(LoginRequiredMixin, View):
     def get(self, request):
 
         context = {
-            
+            'current_user': request.user,
+            'color_form': forms.ColorForm,
+            'picture_form': forms.ProfilePicForm,
+            'memos_sent_num': len(models.Memo.objects.filter(Q(user_1=request.user))),
+            'memos_recieved_num': len(models.Memo.objects.filter(Q(user_2=request.user))),
+            'friends_num': len(models.Friendship.objects.filter(Q(user_1=request.user) | Q(user_2=request.user)))
         }
         return render(request, 'home.html', context)
+    
+    def post(self, request):
+        form_type = request.POST.get("form_type")
+
+        if form_type == "color":
+            form = forms.ColorForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return Home.get(self, request)
+        elif form_type == "picture":
+            form = forms.ProfilePicForm(request.POST, request.FILES, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return Home.get(self, request)
+
+        return Home.get(self, request)
     
 class Friendship(LoginRequiredMixin, View):
     def get(self, request):

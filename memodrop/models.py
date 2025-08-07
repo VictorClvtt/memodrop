@@ -17,7 +17,7 @@ class User(AbstractUser):
         choices=ProfileColor.choices,
         default=ProfileColor.BLACK
     )
-
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True) 
 
     def __str__(self):
         return f'{self.username} - {self.first_name} {self.last_name}'

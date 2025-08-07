@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static '/css/home.css' %}">
     <link rel="shortcut icon" href="{% static '/imgs/memodrop_logo.svg' %}" type="image/x-icon">
     <title>MemoDrop</title>
@@ -14,11 +15,92 @@
     {% include "partials/_nav.html" %}
 
 
-    <div class="d-flex flex-column align-items-center justify-content-center h-100 w-100 text-light">
-        <h1 class="fs-3">Eu amo a Carol do chechão :)</h1>
-        <img src="https://i.pinimg.com/originals/a9/c8/b8/a9c8b8bda377e08cfdaf21f988600592.gif"  alt="">
+    <div class="d-flex flex-column align-items-start justify-content-center text-light m-auto mt-4 ps-3 pe-3" style="width: 100%; max-width: 750px;">
+        <div class="d-flex gap-2">
+            <button class="shadow-sm rounded-3 p-0 border-0"
+            style="width: 6rem; height: 6rem; background-image: url('{% if current_user.profile_picture %}{{ current_user.profile_picture.url }}{% endif %}'); background-size: cover; background-position: center;" data-bs-toggle="modal" data-bs-target="#pictureModal">
+                <div class="d-flex align-items-center justify-content-center rounded-3 " style="width: 6rem; height: 6rem;">
+                    <div class="d-flex align-items-center justify-content-center rounded-2 profile-pic" style="width: 5.5rem; height: 5.5rem; background-color: rgba(255, 255, 255, 0.35); ">
+                        <i class="fa-solid fa-pencil" style="font-size: 0.75rem;"></i>
+                    </div>  
+                </div>
+            </button>
+            <div class="d-flex flex-column">
+                <h1 class="fs-2 fw-bold">{{ current_user.username }}</h1>
+                <div class="d-flex gap-1 align-items-center">
+                    <h2 class="black-text-box fs-6 p-1 ps-2 pe-2 m-0 rounded-1" style="width: fit-content;">{{ current_user.first_name }} {{ current_user.last_name }}</h2>    
+                    <button class="{{ current_user.profile_color }}-text-box d-flex align-items-center justify-content-center rounded-5 border-0 p-0" style="width: 1.5rem; height: 1.5rem;" data-bs-toggle="modal" data-bs-target="#colorModal">
+                        <div class="d-flex align-items-center justify-content-center rounded-5" style="width: 1.25rem; height: 1.25rem; background-color: rgba(0, 0, 0, 0.35);">
+                            <i class="fa-solid fa-pencil" style="font-size: 0.75rem;"></i>
+                        </div>           
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr class="w-100 p-0 mt-2 mb-1">
+        <p class="d-flex m-0" style="font-size: 0.65rem;">Member since: {{ current_user.date_joined|date:'d/m/y' }}</p> 
+        <hr class="w-100 p-0 mt-1 mb-2">
+        <div class="d-flex w-100 p-1 ps-2 pe-2 rounded-1 gap-2 mb-1" style="font-size: 0.8rem; background-color: rgba(0, 0, 0, 0.35);">
+            <p class="m-0">Total Memos Sent:</p>
+            <p class="m-0 fw-bold">{{memos_sent_num}}</p>
+        </div>
+        <div class="d-flex w-100 p-1 ps-2 pe-2 rounded-1 gap-2 mb-1" style="font-size: 0.8rem; background-color: rgba(0, 0, 0, 0.35);">
+            <p class="m-0">Total Memos Recieved:</p>
+            <p class="m-0 fw-bold">{{memos_recieved_num}}</p>
+        </div>
+        <div class="d-flex w-100 p-1 ps-2 pe-2 rounded-1 gap-2 mb-1" style="font-size: 0.8rem; background-color: rgba(0, 0, 0, 0.35);">
+            <p class="m-0">Total Friends:</p>
+            <p class="m-0 fw-bold">{{friends_num}}</p>
+        </div>
     </div>
     
+    <!-- Color Modal -->
+    <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-0 border-bottom border-secondary">
+                    <h1 class="modal-title fs-5 text-light" id="exampleModalLabel">Profile:</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="d-flex flex-column" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ color_form }}
+
+                        <hr>
+
+                        <div class="modal-footer p-0 border-0">
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Picture Modal -->
+    <div class="modal fade" id="pictureModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-0 border-bottom border-secondary">
+                    <h1 class="modal-title fs-5 text-light" id="exampleModalLabel">Profile:</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="d-flex flex-column" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ picture_form }}
+
+                        <hr>
+
+                        <div class="modal-footer p-0 border-0">
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>

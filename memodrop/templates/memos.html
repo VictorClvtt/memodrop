@@ -14,11 +14,24 @@
 <body class="bg-dark d-flex flex-column justify-content-start">
     {% include "partials/_nav.html" %}
 
-    <div class="d-flex align-items-center gap-1 w-100 ps-2 pe-2 text-light" style="min-height: 30px; background-color: rgba(0, 0, 0, 0.25);">
-        <div class="bg-light rounded-5" style="width: 1.25rem; height: 1.25rem;">
-            <img src="" alt="">
+    <div class="d-flex align-items-center gap-1 w-100 ps-2 pe-2 text-light" style="min-height: 40px; background-color: rgba(0, 0, 0, 0.25);">
+        <div class="border rounded-5"
+            style="
+                width: 2rem;
+                height: 2rem;
+                background-color: #f8f9fa;
+                background-size: cover;
+                background-position: center;
+                {% if other_user.profile_picture %}
+                    background-image: url('{{ other_user.profile_picture.url }}');
+                {% endif %}
+            ">
         </div>
-        <p class="m-0" style="font-size: 0.8rem;">Writing to <span class="{{ other_user.profile_color }}-text-box rounded-1 fw-bold ps-1 pe-1">{{ other_user.username }}</span></p>
+
+        <p class="m-0" style="font-size: 0.8rem;">Writing to 
+            <span class="{{ other_user.profile_color }}-text-box rounded-1 fw-bold ps-1 pe-1">{{ other_user.username }}</span>
+            <span class="ps-1" style="font-size: 0.6rem;">(Last login: {{ other_user.last_login|date:'d/m/y H:i' }})</span>
+        </p>
     </div>
 
     <main class="d-flex flex-column justify-content-between text-light">
