@@ -20,20 +20,6 @@ main {
     list-style: none;
 }
 
-.black-text-box{
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.green-text-box{
-    background-color: rgb(36, 221, 159);
-    color: black;
-}
-
-.pink-text-box{
-    background-color: rgb(248, 173, 248);
-    color: black;
-}
-
 .memo-img{
     max-width: 350px;
     max-height: 350px;
